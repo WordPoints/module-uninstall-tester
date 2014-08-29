@@ -5,20 +5,26 @@ A testcase class for testing WordPoints module install and uninstall, with relat
 tools.
 
 # Background #
-#
+
 This repo is an extension of the [WP Plugin Uninstall
 Tester](https://github.com/JDGrimes/wp-plugin-uninstall-tester), which enables it for
 use with WordPoints modules. For more information about the purpose and use of it,
 see that repo.
 
 # Requirements #
-#
+
 The [WP Plugin Uninstall
 Tester](https://github.com/JDGrimes/wp-plugin-uninstall-tester) is required, and must
-be included in your bootstrap before you include this extension's files.
+be included in your bootstrap before you include this extension's files. You can add
+it like this:
+
+```bash
+git subtree add --prefix tests/phpunit/library/plugin-uninstall \
+   git@github.com:JDGrimes/wp-plugin-uninstall-tester.git master --squash
+```
 
 # Installation #
-#
+
 The installation may be performed similar as for the plugin uninstall tester
 (examples assume you are adding these tools in
 tests/phpunit/library/module-uninstall):
