@@ -116,3 +116,7 @@ Example:
 The only difference in usage from the plugin uninstall test tools, is that the path
 to the main module file is stored in the `$module_file` property, instead
 of `$plugin_file`.
+
+# License #
+
+This library is joint licensed under the MIT and GPLv2 licenses.
