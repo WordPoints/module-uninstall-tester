@@ -25,9 +25,18 @@ git subtree add --prefix tests/phpunit/library/plugin-uninstall \
 
 # Installation #
 
-The installation may be performed similar as for the plugin uninstall tester
-(examples assume you are adding these tools in
-tests/phpunit/library/module-uninstall):
+## Composer ##
+You can install this library with composer by adding it to your `requires`:
+
+```json
+    "require": {
+        "wordpoints/module-uninstall-tester": "~0.1"
+    }
+```
+
+## Git Subtree ##
+Alternatively, installation may be performed with `git subtree` (examples assume you
+are adding these tools in tests/phpunit/library/module-uninstall):
 
 ```bash
 git subtree add --prefix tests/phpunit/library/module-uninstall \
