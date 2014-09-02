@@ -15,13 +15,7 @@ see that repo.
 
 The [WP Plugin Uninstall
 Tester](https://github.com/JDGrimes/wp-plugin-uninstall-tester) is required, and must
-be included in your bootstrap before you include this extension's files. You can add
-it like this:
-
-```bash
-git subtree add --prefix tests/phpunit/library/plugin-uninstall \
-   git@github.com:JDGrimes/wp-plugin-uninstall-tester.git master --squash
-```
+be included in your bootstrap before you include this extension's files.
 
 # Installation #
 
@@ -36,17 +30,17 @@ You can install this library with composer by adding it to your `requires`:
 
 ## Git Subtree ##
 Alternatively, installation may be performed with `git subtree` (examples assume you
-are adding these tools in tests/phpunit/library/module-uninstall):
+are adding these tools in `/vendor/wordpoints/module-uninstall-tester/`):
 
 ```bash
-git subtree add --prefix tests/phpunit/library/module-uninstall \
+git subtree add --prefix vendor/wordpoints/module-uninstall-tester \
    git@github.com:WordPoints/wordpoints-module-uninstall-tester.git master --squash
 ```
 
 Updating is then done like so:
 
 ```bash
-git subtree pull --prefix tests/phpunit/library/module-uninstall \
+git subtree pull --prefix vendor/wordpoints/module-uninstall-tester \
    git@github.com:WordPoints/wordpoints-module-uninstall-tester.git master --squash
 ```
 
@@ -62,10 +56,10 @@ uninstall tests aren't being run.
  */
 
 // Include the plugin uninstall test tools functions.
-include_once dirname( __FILE__ ) . '/../library/plugin-uninstall/includes/functions.php';
+include_once dirname( __FILE__ ) . '/../../vendor/jdgrimes/wp-plugin-uninstall-tester/includes/functions.php';
 
 // Now include the module uninstall test tools functions.
-include_once dirname( __FILE__ ) . '/../library/module-uninstall/includes/functions.php';
+include_once dirname( __FILE__ ) . '/../../vendor/wordpoints/module-uninstall-tester/functions.php';
 
 // Check if the tests are running. Only load the plugin if they aren't.
 if ( ! running_wordpoints_module_uninstall_tests() ) {
@@ -82,10 +76,10 @@ Secondly, you need to include the `bootstrap.php` file:
  */
 
 // Include the plugin uninstall tools bootstrap.
-include_once dirname( __FILE__ ) . '/../library/plugin-uninstall/bootstrap.php';
+include_once dirname( __FILE__ ) . '/../../vendor/jdgrimes/wp-plugin-uninstall-tester/bootstrap.php';
 
 // Now include the module uninstall tools bootstrap.
-include_once dirname( __FILE__ ) . '/../library/module-uninstall/bootstrap.php';
+include_once dirname( __FILE__ ) . '/../../vendor/wordpoints/module-uninstall-tester/bootstrap.php';
 ```
 
 Thirdly, you need to exclude the uninstall group from the tests in your PHPUnit XML
