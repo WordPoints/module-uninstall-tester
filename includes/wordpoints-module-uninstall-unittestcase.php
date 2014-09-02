@@ -76,6 +76,8 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 			exit( 'Error: $module_file property not set.' . PHP_EOL );
 		}
 
+		require getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/includes/uninstall-bootstrap.php';
+
 		$this->plugin_file = $this->module_file;
 		parent::uninstall();
 	}
