@@ -63,6 +63,42 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	}
 
 	/**
+	 * Simulate the usage of the plugin, by including a simulation file remotely.
+	 *
+	 * Called by uninstall() to simulate the usage of the plugin. This is useful to
+	 * help make sure that the plugin really uninstalls itself completely, by undoing
+	 * everything that might be done while it is active, not just reversing the un-
+	 * install routine (though in some cases that may be all that is necessary).
+	 *
+	 * @since 0.2.0
+	 */
+	public function simulate_usage() {
+
+		if ( empty( $this->simulation_file ) || $this->simulated_usage ) {
+			return;
+		}
+
+		global $wpdb;
+
+		$wpdb->query( 'ROLLBACK' );
+
+		system(
+			WP_PHP_BINARY
+			. ' ' . escapeshellarg( dirname( dirname( __FILE__ ) ) . '/bin/simulate-module-use.php' )
+			. ' ' . escapeshellarg(	getenv( 'WORDPOINTS_TESTS_DIR' ) . '../../src/wordpoints.php' )
+			. ' ' . escapeshellarg( $this->simulation_file )
+			. ' ' . escapeshellarg( $this->locate_wp_tests_config() )
+			. ' ' . (int) is_multisite()
+			. ' ' . escapeshellarg( WP_PLUGIN_UNINSTALL_TESTER_DIR )
+			. ' ' . escapeshellarg( $this->plugin_file )
+		);
+
+		$this->flush_cache();
+
+		$this->simulated_usage = true;
+	}
+
+	/**
 	 * Run the module's uninstall script.
 	 *
 	 * Call it and then run your uninstall assertions. You should always test
