@@ -25,6 +25,7 @@ require_once getenv( 'WP_TESTS_DIR' ) . '/includes/functions.php';
 function _wordpoints_module_uninstall_tester_load_wordpoints() {
 
 	require getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/wordpoints.php';
+	wordpoints_activate( false );
 }
 tests_add_filter( 'muplugins_loaded', '_wordpoints_module_uninstall_tester_load_wordpoints' );
 
