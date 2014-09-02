@@ -47,7 +47,7 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 		// Activate the WordPoints plugin.
 		$path = WORDPOINTS_TESTS_DIR . '/../../src/wordpoints.php';
 		wp_register_plugin_realpath( $path );
-		$plugins = wordpoints_get_array_option( 'active_plugins' );
+		$plugins = get_option( 'active_plugins', array() );
 		$plugins[] = plugin_basename( $path );
 		update_option( 'active_plugins', $plugins );
 
