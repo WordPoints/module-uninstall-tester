@@ -15,7 +15,14 @@ see that repo.
 
 The [WP Plugin Uninstall
 Tester](https://github.com/JDGrimes/wp-plugin-uninstall-tester) is required, and must
-be included in your bootstrap before you include this extension's files.
+be included in your bootstrap before you include this extension's files. It will be
+installed for you automatically if you are using composer.
+
+# Compatibility #
+
+The library is intended to be compatible with the current stable version of the WordPoints
+plugin, as well as the bleeding edge development version. It should also be compatible
+with all versions of PHP and WordPress which those versions of WordPoints support.
 
 # Installation #
 
@@ -24,7 +31,7 @@ You can install this library with composer by adding it to your `requires`:
 
 ```json
     "require": {
-        "wordpoints/module-uninstall-tester": "~0.1"
+        "wordpoints/module-uninstall-tester": "~0.2"
     }
 ```
 
