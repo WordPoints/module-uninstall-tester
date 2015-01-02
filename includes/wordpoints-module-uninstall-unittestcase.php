@@ -117,6 +117,7 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 		}
 
 		require getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/includes/uninstall-bootstrap.php';
+		require_once( getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/includes/class-un-installer-base.php' );
 
 		$this->plugin_file = $this->module_file;
 		parent::uninstall();
