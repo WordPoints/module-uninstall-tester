@@ -121,7 +121,6 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 		require_once( WORDPOINTS_DIR . '/includes/class-un-installer-base.php' );
 		require_once( WORDPOINTS_DIR . '/includes/functions.php' );
 		require_once( WORDPOINTS_DIR . '/includes/modules.php' );
-		require_once( WORDPOINTS_DIR . '/includes/class-installables.php' );
 		require_once( WORDPOINTS_DIR . '/includes/class-wordpoints-components.php' );
 
 		$this->plugin_file = $this->module_file;
