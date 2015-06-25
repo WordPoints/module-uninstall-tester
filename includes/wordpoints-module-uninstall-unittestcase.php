@@ -36,7 +36,7 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	 *
 	 * Called by the setUp() method.
 	 *
-	 * Installation is run seperately, so the module is never actually loaded in this
+	 * Installation is run separately, so the module is never actually loaded in this
 	 * process. This provides more realistic testing of the uninstall process, since
 	 * it is run while the module is inactive, just like in "real life".
 	 *
