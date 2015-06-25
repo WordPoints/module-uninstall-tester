@@ -36,7 +36,7 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	 *
 	 * Called by the setUp() method.
 	 *
-	 * Installation is run seperately, so the module is never actually loaded in this
+	 * Installation is run separately, so the module is never actually loaded in this
 	 * process. This provides more realistic testing of the uninstall process, since
 	 * it is run while the module is inactive, just like in "real life".
 	 *
@@ -113,11 +113,16 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	public function uninstall() {
 
 		if ( empty( $this->module_file ) ) {
-			exit( 'Error: $module_file property not set.' . PHP_EOL );
+			echo( 'Error: $module_file property not set.' . PHP_EOL );
+			exit( 1 );
 		}
 
-		require getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/includes/uninstall-bootstrap.php';
-		require_once( getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/includes/class-un-installer-base.php' );
+		require_once( getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/includes/constants.php' );
+		require_once( WORDPOINTS_DIR . '/includes/class-un-installer-base.php' );
+		require_once( WORDPOINTS_DIR . '/includes/functions.php' );
+		require_once( WORDPOINTS_DIR . '/includes/modules.php' );
+		require_once( WORDPOINTS_DIR . '/includes/class-installables.php' );
+		require_once( WORDPOINTS_DIR . '/includes/class-wordpoints-components.php' );
 
 		$this->plugin_file = $this->module_file;
 		parent::uninstall();
