@@ -7,7 +7,7 @@ CHANGELOG](http://keepachangelog.com/).
 ## [Unreleased]
 Nothing right now.
 
-## [0.2.3] - 2015-06-01
+## [0.2.3] - 2015-06-25
 
 ## Added
 - Changelog.
