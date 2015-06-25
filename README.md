@@ -26,29 +26,10 @@ with all versions of PHP and WordPress which those versions of WordPoints suppor
 
 # Installation #
 
-## Composer ##
-You can install this library with composer by adding it to your `requires`:
-
-```json
-    "require": {
-        "wordpoints/module-uninstall-tester": "~0.2"
-    }
-```
-
-## Git Subtree ##
-Alternatively, installation may be performed with `git subtree` (examples assume you
-are adding these tools in `/vendor/wordpoints/module-uninstall-tester/`):
+You can install this library with composer:
 
 ```bash
-git subtree add --prefix vendor/wordpoints/module-uninstall-tester \
-   git@github.com:WordPoints/wordpoints-module-uninstall-tester.git master --squash
-```
-
-Updating is then done like so:
-
-```bash
-git subtree pull --prefix vendor/wordpoints/module-uninstall-tester \
-   git@github.com:WordPoints/wordpoints-module-uninstall-tester.git master --squash
+composer require --dev wordpoints/module-uninstall-tester:~0.2
 ```
 
 # Set Up #
