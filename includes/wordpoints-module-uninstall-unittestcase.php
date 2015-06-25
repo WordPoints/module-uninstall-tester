@@ -113,7 +113,8 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	public function uninstall() {
 
 		if ( empty( $this->module_file ) ) {
-			exit( 'Error: $module_file property not set.' . PHP_EOL );
+			echo( 'Error: $module_file property not set.' . PHP_EOL );
+			exit( 1 );
 		}
 
 		require_once( getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/includes/constants.php' );
