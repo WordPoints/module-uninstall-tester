@@ -19,13 +19,37 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	//
 
 	/**
-	 * The full path to the main module file.
+	 * The basename path to the main module file.
 	 *
 	 * @since 0.1.0
+	 * @since 0.3.0 No longer expected to be a full path.
 	 *
 	 * @type string $module_file
 	 */
 	protected $module_file;
+
+	/**
+	 * The main file of WordPoints.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @var string
+	 */
+	protected $wordpoints_file;
+
+	/**
+	 * @since 0.3.0
+	 */
+	public function setUp() {
+
+		$this->wordpoints_file = dirname( dirname( WORDPOINTS_TESTS_DIR ) ) . '/src/wordpoints.php';
+
+		wp_register_plugin_realpath( $this->wordpoints_file );
+
+		$this->plugin_file = plugin_basename( $this->wordpoints_file );
+
+		parent::setUp();
+	}
 
 	//
 	// Methods.
@@ -45,25 +69,25 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	protected function install() {
 
 		// Activate the WordPoints plugin.
-		$path = WORDPOINTS_TESTS_DIR . '/../../src/wordpoints.php';
-
-		if ( function_exists( 'wp_register_plugin_realpath' ) ) { // Back-compat for WordPress 3.8.
-			wp_register_plugin_realpath( $path );
-		}
-
 		$plugins = get_option( 'active_plugins', array() );
-		$plugins[] = plugin_basename( $path );
+		$plugins[] = $this->plugin_file;
 		update_option( 'active_plugins', $plugins );
 
 		system(
 			WP_PHP_BINARY
 			. ' ' . escapeshellarg( dirname( dirname( __FILE__ ) ) . '/bin/install-module.php' )
 			. ' ' . escapeshellarg( $this->module_file )
-			. ' ' . escapeshellarg( $this->install_function )
 			. ' ' . escapeshellarg( $this->locate_wp_tests_config() )
 			. ' ' . (int) is_multisite()
+			. ' ' . (int) $this->network_active
 			. ' ' . escapeshellarg( WP_PLUGIN_UNINSTALL_TESTER_DIR )
+			. ' ' . escapeshellarg( $this->plugin_file )
+			, $exit_code
 		);
+
+		if ( 0 !== $exit_code ) {
+			$this->fail( 'Remote module installation failed with exit code ' . $exit_code );
+		}
 	}
 
 	/**
@@ -89,41 +113,24 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 		system(
 			WP_PHP_BINARY
 			. ' ' . escapeshellarg( dirname( dirname( __FILE__ ) ) . '/bin/simulate-module-use.php' )
-			. ' ' . escapeshellarg(	getenv( 'WORDPOINTS_TESTS_DIR' ) . '../../src/wordpoints.php' )
+			. ' ' . escapeshellarg( $this->wordpoints_file )
 			. ' ' . escapeshellarg( $this->simulation_file )
 			. ' ' . escapeshellarg( $this->locate_wp_tests_config() )
 			. ' ' . (int) is_multisite()
+			. ' ' . (int) $this->network_active
 			. ' ' . escapeshellarg( WP_PLUGIN_UNINSTALL_TESTER_DIR )
 			. ' ' . escapeshellarg( $this->plugin_file )
+			, $exit_code
 		);
+
+		if ( 0 !== $exit_code ) {
+			$this->fail( 'Usage simulation failed with exit code ' . $exit_code );
+		}
 
 		$this->flush_cache();
 
 		$this->simulated_usage = true;
 	}
-
-	/**
-	 * Run the module's uninstall script.
-	 *
-	 * Call it and then run your uninstall assertions. You should always test
-	 * installation before testing uninstallation.
-	 *
-	 * @since 0.1.0
-	 */
-	public function uninstall() {
-
-		if ( empty( $this->module_file ) ) {
-			echo( 'Error: $module_file property not set.' . PHP_EOL );
-			exit( 1 );
-		}
-
-		require_once( getenv( 'WORDPOINTS_TESTS_DIR' ) . '/../../src/includes/constants.php' );
-		require_once( WORDPOINTS_DIR . '/includes/class-un-installer-base.php' );
-		require_once( WORDPOINTS_DIR . '/includes/functions.php' );
-		require_once( WORDPOINTS_DIR . '/includes/modules.php' );
-		require_once( WORDPOINTS_DIR . '/includes/class-wordpoints-components.php' );
-
-		$this->plugin_file = $this->module_file;
-		parent::uninstall();
-	}
 }
+
+// EOF
