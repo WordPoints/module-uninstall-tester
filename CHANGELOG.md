@@ -7,14 +7,25 @@ CHANGELOG](http://keepachangelog.com/).
 ## [Unreleased]
 Nothing right now.
 
+## [0.4.0] - 2016-07-27
+
+### Fixed
+- WordPoints not being uninstalled correctly. #14
+- WordPoints always being network installed on multisite. #13
+
+### Changed
+- WordPoints is now installed using `activate_plugin()`, instead of calling the activation function manually. #15
+
+### Added
+- Support for network activating WordPoints without network activating the module. #11
+- WordPoints is now automatically network activated if the `WORDPOINTS_NETWORK_ACTIVE` environment variable is true. #11
+
 ## [0.3.0] - 2016-07-23
 
 ### Added
-
 - Support for testing with WordPoints and the module network active. #9
 
 ### Changed
-
 - `$this->module_file` is now expected to be the basename path of the module, not the full path. #9
 - The module is now installed using `wordpoints_activate_module()`, instead of calling the function manually. #9
 
@@ -37,7 +48,8 @@ Nothing right now.
 ### Fixed
 - Incompatibility with WordPoints 2.0.0. #7
 
-[unreleased]: https://github.com/WordPoints/module-uninstall-tester/compare/0.3.0...HEAD
+[unreleased]: https://github.com/WordPoints/module-uninstall-tester/compare/0.4.0...HEAD
+[0.4.0]: https://github.com/WordPoints/module-uninstall-tester/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/WordPoints/module-uninstall-tester/compare/0.2.4...0.3.0
 [0.2.4]: https://github.com/WordPoints/module-uninstall-tester/compare/0.2.3...0.2.4
 [0.2.3]: https://github.com/WordPoints/module-uninstall-tester/compare/15056ef4...0.2.3
