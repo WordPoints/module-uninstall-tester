@@ -29,27 +29,9 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	protected $module_file;
 
 	/**
-	 * The main file of WordPoints.
-	 *
-	 * @since 0.3.0
-	 *
-	 * @var string
+	 * @since 0.4.0
 	 */
-	protected $wordpoints_file;
-
-	/**
-	 * @since 0.3.0
-	 */
-	public function setUp() {
-
-		$this->wordpoints_file = dirname( dirname( WORDPOINTS_TESTS_DIR ) ) . '/src/wordpoints.php';
-
-		wp_register_plugin_realpath( $this->wordpoints_file );
-
-		$this->plugin_file = plugin_basename( $this->wordpoints_file );
-
-		parent::setUp();
-	}
+	protected $plugin_file = 'wordpoints/wordpoints.php';
 
 	//
 	// Methods.
@@ -67,11 +49,6 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	 * @since 0.1.0
 	 */
 	protected function install() {
-
-		// Activate the WordPoints plugin.
-		$plugins = get_option( 'active_plugins', array() );
-		$plugins[] = $this->plugin_file;
-		update_option( 'active_plugins', $plugins );
 
 		system(
 			WP_PHP_BINARY
@@ -113,13 +90,12 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 		system(
 			WP_PHP_BINARY
 			. ' ' . escapeshellarg( dirname( dirname( __FILE__ ) ) . '/bin/simulate-module-use.php' )
-			. ' ' . escapeshellarg( $this->wordpoints_file )
+			. ' ' . escapeshellarg( $this->plugin_file )
 			. ' ' . escapeshellarg( $this->simulation_file )
 			. ' ' . escapeshellarg( $this->locate_wp_tests_config() )
 			. ' ' . (int) is_multisite()
 			. ' ' . (int) $this->network_active
 			. ' ' . escapeshellarg( WP_PLUGIN_UNINSTALL_TESTER_DIR )
-			. ' ' . escapeshellarg( $this->plugin_file )
 			, $exit_code
 		);
 
