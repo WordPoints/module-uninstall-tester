@@ -29,31 +29,43 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	protected $module_file;
 
 	/**
-	 * The main file of WordPoints.
+	 * Whether WordPoints should be network activated during the tests.
 	 *
-	 * @since 0.3.0
+	 * Will default to the value of the `WORDPOINTS_NETWORK_ACTIVE` environment
+	 * variable.
 	 *
-	 * @var string
+	 * @since 0.4.0
+	 *
+	 * @var bool
 	 */
-	protected $wordpoints_file;
+	protected $wordpoints_network_active;
+
+	/**
+	 * @since 0.4.0
+	 */
+	protected $plugin_file = 'wordpoints/wordpoints.php';
+
+	//
+	// Methods.
+	//
 
 	/**
 	 * @since 0.3.0
 	 */
 	public function setUp() {
 
-		$this->wordpoints_file = dirname( dirname( WORDPOINTS_TESTS_DIR ) ) . '/src/wordpoints.php';
+		if ( ! isset( $this->wordpoints_network_active ) && $this->network_active ) {
+			$this->wordpoints_network_active = true;
+		}
 
-		wp_register_plugin_realpath( $this->wordpoints_file );
-
-		$this->plugin_file = plugin_basename( $this->wordpoints_file );
+		if ( ! isset( $this->wordpoints_network_active ) ) {
+			$this->wordpoints_network_active = (bool) getenv(
+				'WORDPOINTS_NETWORK_ACTIVE'
+			);
+		}
 
 		parent::setUp();
 	}
-
-	//
-	// Methods.
-	//
 
 	/**
 	 * Run the module's install script.
@@ -68,11 +80,6 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 	 */
 	protected function install() {
 
-		// Activate the WordPoints plugin.
-		$plugins = get_option( 'active_plugins', array() );
-		$plugins[] = $this->plugin_file;
-		update_option( 'active_plugins', $plugins );
-
 		system(
 			WP_PHP_BINARY
 			. ' ' . escapeshellarg( dirname( dirname( __FILE__ ) ) . '/bin/install-module.php' )
@@ -82,6 +89,7 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 			. ' ' . (int) $this->network_active
 			. ' ' . escapeshellarg( WP_PLUGIN_UNINSTALL_TESTER_DIR )
 			. ' ' . escapeshellarg( $this->plugin_file )
+			. ' ' . (int) $this->wordpoints_network_active
 			, $exit_code
 		);
 
@@ -113,13 +121,13 @@ abstract class WordPoints_Module_Uninstall_UnitTestCase extends WP_Plugin_Uninst
 		system(
 			WP_PHP_BINARY
 			. ' ' . escapeshellarg( dirname( dirname( __FILE__ ) ) . '/bin/simulate-module-use.php' )
-			. ' ' . escapeshellarg( $this->wordpoints_file )
+			. ' ' . escapeshellarg( $this->plugin_file )
 			. ' ' . escapeshellarg( $this->simulation_file )
 			. ' ' . escapeshellarg( $this->locate_wp_tests_config() )
 			. ' ' . (int) is_multisite()
-			. ' ' . (int) $this->network_active
+			. ' ' . (int) $this->wordpoints_network_active
 			. ' ' . escapeshellarg( WP_PLUGIN_UNINSTALL_TESTER_DIR )
-			. ' ' . escapeshellarg( $this->plugin_file )
+			. ' ' . (int) $this->network_active
 			, $exit_code
 		);
 
