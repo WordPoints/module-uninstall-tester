@@ -4,6 +4,8 @@ WordPoints Module Uninstall Tester
 A testcase class for testing WordPoints module install and uninstall, with related
 tools.
 
+**Note: this library is now deprecated in favor of the testcase bundled with the [WordPoints dev-lib](https://github.com/WordPoints/dev-lib).**
+
 # Background #
 
 This repo is an extension of the [WP Plugin Uninstall
